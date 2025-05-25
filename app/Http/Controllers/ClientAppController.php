@@ -16,7 +16,7 @@ class ClientAppController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('admin')->except(['index']);
+        $this->middleware('admin'); // Semua method hanya bisa diakses oleh admin
     }
 
     /**

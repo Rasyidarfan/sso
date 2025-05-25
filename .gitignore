@@ -16,3 +16,6 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+# Exclude PegawaiSeeder from git tracking
+/database/seeders/PegawaiSeeder.php

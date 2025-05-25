@@ -38,13 +38,16 @@ Route::get('/', function () {
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+// API Documentation route
+Route::get('/docs', function () {
+    return view('docs.index');
+})->name('api.docs');
+
 // SSO routes 
 Route::prefix('v1')->group(function () {
     // Authorize endpoint - accepts any method to handle error properly
-    Route::any('/authorize', [SsoController::class, 'authorize'])->name('sso.authorize');
-    
-    // Token endpoint - accepts any method to handle error properly
-    Route::any('/token', [SsoController::class, 'token'])->name('sso.token');
+    Route::any('/authorize', [SsoController::class, 'oauthAuthorize'])->name('sso.authorize');
+    Route::any('/token', [SsoController::class, 'oauthToken'])->name('sso.token');
 });
 
 // Redirect from client apps
@@ -62,8 +65,10 @@ Route::middleware(['auth'])->group(function () {
         Route::patch('/users/{user}/toggle-status', [UserController::class, 'toggleStatus'])->name('users.toggle-status');
     });
 
-    // Client Apps
-    Route::resource('client-apps', ClientAppController::class);
-    Route::patch('/client-apps/{clientApp}/toggle-status', [ClientAppController::class, 'toggleStatus'])->name('client-apps.toggle-status');
-    Route::post('/client-apps/{clientApp}/regenerate-secret', [ClientAppController::class, 'regenerateSecret'])->name('client-apps.regenerate-secret');
+    // Client Apps (admin only)
+    Route::middleware(['admin'])->group(function () {
+        Route::resource('client-apps', ClientAppController::class);
+        Route::patch('/client-apps/{clientApp}/toggle-status', [ClientAppController::class, 'toggleStatus'])->name('client-apps.toggle-status');
+        Route::post('/client-apps/{clientApp}/regenerate-secret', [ClientAppController::class, 'regenerateSecret'])->name('client-apps.regenerate-secret');
+    });
 });

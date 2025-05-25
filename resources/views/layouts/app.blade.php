@@ -187,8 +187,13 @@
                     <i class="fas fa-users"></i> Daftar Akun
                 </a>
                 @endif
+                @if(Auth::user()->isAdmin())
                 <a href="{{ route('client-apps.index') }}" class="sidebar-link">
                     <i class="fas fa-code"></i> API & Aplikasi
+                </a>
+                @endif
+                <a href="{{ route('api.docs') }}" class="sidebar-link">
+                    <i class="fas fa-book"></i> Dokumentasi API
                 </a>
                 <a href="{{ route('logout') }}" class="sidebar-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="fas fa-sign-out-alt"></i> Logout

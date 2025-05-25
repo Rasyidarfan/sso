@@ -78,6 +78,132 @@ class PegawaiSeeder extends Seeder
                 'nip16' => '200211142023102003',
                 'roles' => ['umum', 'humas']
             ],
+            [
+                'name' => 'Puridin Situmorang S.Sos.',
+                'email' => 'puridin.situmorang@bps.go.id',
+                'nip9' => '340012275',
+                'nip16' => '196608051989031004',
+                'roles' => ['produksi']
+            ],
+            [
+                'name' => 'A. Majid S.Sos',
+                'email' => 'amajid@bps.go.id',
+                'nip9' => '340012307',
+                'nip16' => '196812311989031014',
+                'roles' => ['sosial']
+            ],
+            [
+                'name' => 'Alfonsina Yumame S.E.',
+                'email' => 'alfonsina.yumame@bps.go.id',
+                'nip9' => '340055609',
+                'nip16' => '198502202011012010',
+                'roles' => ['distribusi']
+            ],
+            [
+                'name' => 'Betsy Batseba Donggori SST',
+                'email' => 'betsydonggori@bps.go.id',
+                'nip9' => '340056230',
+                'nip16' => '198912282013112001',
+                'roles' => ['produksi']
+            ],
+            [
+                'name' => 'Rio Fernando Aroy',
+                'email' => 'rio.aroy@bps.go.id',
+                'nip9' => '340055655',
+                'nip16' => '199009292011011001',
+                'roles' => ['neraca', 'pengolahan']
+            ],
+            [
+                'name' => 'Ario Wicaksono SST',
+                'email' => 'ario.wicaksono@bps.go.id',
+                'nip9' => '340058042',
+                'nip16' => '199407242017011001',
+                'roles' => ['neraca']
+            ],
+            [
+                'name' => 'Jezenia Jaqueline Rolian Karet S.Tr.Stat.',
+                'email' => 'jezeniakrth@bps.go.id',
+                'nip9' => '340058793',
+                'nip16' => '199609012019012001',
+                'roles' => ['distribusi', 'humas']
+            ],
+            [
+                'name' => 'Prawesty Dian Utami S.Tr.Stat.',
+                'email' => 'prawesty.utami@bps.go.id',
+                'nip9' => '340060272',
+                'nip16' => '199710242021042001',
+                'roles' => ['umum', 'rb']
+            ],
+            [
+                'name' => 'Sahara Sabilah Putri S.Tr.Stat.',
+                'email' => 'sahara.putri@bps.go.id',
+                'nip9' => '340060310',
+                'nip16' => '199804242021042001',
+                'roles' => ['distribusi']
+            ],
+            [
+                'name' => 'Khairunissa Balqis Zhahira S.Tr.Stat.',
+                'email' => 'balqiszhahira@bps.go.id',
+                'nip9' => '340060712',
+                'nip16' => '199805052022012001',
+                'roles' => ['umum', 'humas']
+            ],
+            [
+                'name' => 'Lanang Adi Berkah S.Tr.Stat.',
+                'email' => 'lanang.adi@bps.go.id',
+                'nip9' => '340060715',
+                'nip16' => '199807022022011001',
+                'roles' => ['pengolahan', 'descan']
+            ],
+            [
+                'name' => 'Ahmad Arfan Arsyad S.Tr.Stat.',
+                'email' => 'aarfanarsyad@bps.go.id',
+                'nip9' => '340061633',
+                'nip16' => '200002042023021002',
+                'roles' => ['admin', 'pengolahan', 'humas']
+            ],
+            [
+                'name' => 'Joni Kidang S.Tr.Stat.',
+                'email' => 'joni.kidang@bps.go.id',
+                'nip9' => '340055636',
+                'nip16' => '198706202011011010',
+                'roles' => ['neraca', 'rb']
+            ],
+            [
+                'name' => 'Rachel Lyberti Mayasiah Rumadas S.Tr.Stat',
+                'email' => 'rachel.lyberti@bps.go.id',
+                'nip9' => '340058918',
+                'nip16' => '199603122019012001',
+                'roles' => ['sosial']
+            ],
+            [
+                'name' => 'Lady Deborah S.Tr.Stat',
+                'email' => 'lady.deborah@bps.go.id',
+                'nip9' => '340055639',
+                'nip16' => '198702132011012015',
+                'roles' => ['distribusi']
+            ],
+            [
+                'name' => 'Dwika Gielsen Nugraha A.Md.Stat.',
+                'email' => 'dwika.nugraha@bps.go.id',
+                'nip9' => '340063122',
+                'nip16' => '200304152024121001',
+                'roles' => ['umum', 'humas']
+            ],
+            [
+                'name' => 'Indramawan Yusuf Adi Prayoga S.Tr.Stat.',
+                'email' => 'indramawan.prayoga@bps.go.id',
+                'nip9' => '340063228',
+                'nip16' => '200106252024121004',
+                'roles' => ['produksi', 'humas']
+            ],
+            [
+                'name' => 'Rayhan Ardiya Januprasetya S.Tr.Stat.',
+                'email' => 'rayhan.ardiya@bps.go.id',
+                'nip9' => '340063472',
+                'nip16' => '200101122024121001',
+                'roles' => ['sosial', 'humas']
+            ],
         ];
 
         foreach ($pegawai as $data) {

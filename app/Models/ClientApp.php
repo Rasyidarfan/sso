@@ -15,6 +15,7 @@ class ClientApp extends Model
         'client_id',
         'client_secret',
         'redirect_uri',
+        'redirect_uri_dev',
         'description',
         'is_active'
     ];
@@ -32,6 +33,18 @@ class ClientApp extends Model
             'client_id' => Str::slug(Str::random(8)),
             'client_secret' => Str::random(32),
         ];
+    }
+
+    /**
+     * Get redirect URI based on environment
+     */
+    public function getRedirectUri()
+    {
+        if (config('app.env') === 'local' && !empty($this->redirect_uri_dev)) {
+            return $this->redirect_uri_dev;
+        }
+        
+        return $this->redirect_uri;
     }
 
     /**

@@ -1,0 +1,50 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\Role;
+use App\Models\User;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+
+class PegawaiSeeder extends Model
+{
+    /**
+     * Run the database seeds.
+     * 
+     * NOTE: This file contains sensitive employee data and should not be committed to git.
+     * Copy this template and modify it with actual employee data.
+     */
+    public function run(): void
+    {
+        // TEMPLATE - Replace with actual employee data
+        $pegawai = [
+            [
+                'name' => 'Employee Name',
+                'email' => 'employee@bps.go.id',
+                'nip9' => '123456789',
+                'nip16' => '123456789012345678',
+                'roles' => ['role1', 'role2'] // Available roles: admin, umum, kepala, neraca, produksi, distribusi, sosial, ipds, humas, descan, rb, nerwilis, pengolahan
+            ],
+            // Add more employees here...
+        ];
+
+        foreach ($pegawai as $data) {
+            $user = User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make('password'), // Change default password
+                'nip9' => $data['nip9'],
+                'nip16' => $data['nip16'],
+            ]);
+
+            // Assign roles
+            foreach ($data['roles'] as $roleName) {
+                $role = Role::where('name', $roleName)->first();
+                if ($role) {
+                    $user->roles()->attach($role->id);
+                }
+            }
+        }
+    }
+}

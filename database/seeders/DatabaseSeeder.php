@@ -37,19 +37,22 @@ class DatabaseSeeder extends Seeder
 
         // Create admin user
         $admin = User::create([
-            'name' => 'Ahmad Arfan Arsyad S.Tr.Stat.',
-            'email' => 'arfan@bps.go.id',
+            'name' => 'Administrator',
+            'email' => 'admin@bps.go.id',
             'password' => Hash::make('password'),
-            'nip9' => '340061633',
-            'nip16' => '200002042023021002',
+            'nip9' => '999999999',
+            'nip16' => '999999999999999999',
         ]);
 
         // Assign admin role
         $admin->roles()->attach(Role::where('name', 'admin')->first()->id);
-        $admin->roles()->attach(Role::where('name', 'ipds')->first()->id);
-        $admin->roles()->attach(Role::where('name', 'nerwilis')->first()->id);
         
-        // Seed from pegawai data
-        $this->call(PegawaiSeeder::class);
+        // Seed from pegawai data if file exists
+        if (class_exists('\Database\Seeders\PegawaiSeeder')) {
+            $this->call(PegawaiSeeder::class);
+        } else {
+            $this->command->info('PegawaiSeeder not found. Skipping employee data seeding.');
+            $this->command->info('Copy PegawaiSeeder.php.template to PegawaiSeeder.php and modify with actual data.');
+        }
     }
 }

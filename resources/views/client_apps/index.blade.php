@@ -19,7 +19,7 @@
 
 <div class="row">
     @foreach($clientApps as $app)
-    <div class="col-lg-6 mb-4">
+    <div class="col-lg-4 col-md-6 mb-4">
         <div class="card h-100">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-start mb-3">
@@ -86,6 +86,7 @@
     </div>
     @endforeach
 </div>
+
 
 @if($clientApps->isEmpty())
 <div class="text-center p-5">
