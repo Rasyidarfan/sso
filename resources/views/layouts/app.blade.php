@@ -111,10 +111,39 @@
             color: #333;
             text-decoration: none;
             border-bottom: 1px solid #eee;
+            transition: all 0.3s ease;
         }
         
         .sidebar-link:hover {
             background: #f5f5f5;
+            color: #0099dd;
+        }
+        
+        .sidebar-link.active {
+            background: #0099dd;
+            color: white;
+        }
+        
+        .sidebar-link.active:hover {
+            background: #0088cc;
+            color: white;
+        }
+        
+        .sidebar-divider {
+            height: 1px;
+            background: #eee;
+            margin: 10px 0;
+        }
+        
+        .sidebar-info {
+            margin-top: 20px;
+        }
+        
+        .sidebar-info .sidebar-title {
+            font-size: 16px;
+            font-weight: bold;
+            padding: 10px 25px 5px;
+            color: #0099dd;
         }
         
         .sidebar-title {
@@ -164,7 +193,7 @@
                 </div>
                 <div class="navbar-brand">
                     <img src="{{ asset('Logo_tagline.png') }}" alt="BPS Logo">
-                    <span>SSO BPS</span>
+                    <span class="text-white font-extrabold">SSO BPS Jayawijaya</span>
                 </div>
                 <div></div>
             </div>
@@ -176,20 +205,28 @@
         <div class="sidebar">
             <div class="sidebar-title">Menu</div>
             @auth
+                <!-- Menu untuk user yang sudah login -->
                 <a href="{{ route('home') }}" class="sidebar-link">
                     <i class="fas fa-home"></i> Dashboard
                 </a>
                 <a href="{{ route('profile') }}" class="sidebar-link">
                     <i class="fas fa-user"></i> Profile
                 </a>
-                @if(Auth::user()->canManageUsers())
+                <!-- Semua user bisa melihat daftar akun -->
                 <a href="{{ route('users.index') }}" class="sidebar-link">
-                    <i class="fas fa-users"></i> Daftar Akun
+                    <i class="fas fa-users"></i> 
+                    @if(Auth::user()->canManageUsers())
+                        Kelola Akun
+                    @else
+                        Daftar Akun
+                    @endif
                 </a>
-                @endif
                 @if(Auth::user()->isAdmin())
                 <a href="{{ route('client-apps.index') }}" class="sidebar-link">
                     <i class="fas fa-code"></i> API & Aplikasi
+                </a>
+                <a href="{{ route('roles.index') }}" class="sidebar-link">
+                    <i class="fas fa-shield-alt"></i> Tim/Role
                 </a>
                 @endif
                 <a href="{{ route('api.docs') }}" class="sidebar-link">
@@ -202,9 +239,24 @@
                     @csrf
                 </form>
             @else
-                <a href="{{ route('login') }}" class="sidebar-link">
+                <!-- Menu untuk user yang belum login -->
+                <a href="{{ route('api.docs') }}" class="sidebar-link {{ request()->routeIs('api.docs') ? 'active' : '' }}">
+                    <i class="fas fa-book"></i> Dokumentasi API
+                </a>
+                <a href="{{ route('login') }}" class="sidebar-link {{ request()->routeIs('login') ? 'active' : '' }}">
                     <i class="fas fa-sign-in-alt"></i> Login
                 </a>
+                
+                <!-- Info Section untuk Guest -->
+                <div class="sidebar-divider"></div>
+                <div class="sidebar-info">
+                    <div class="sidebar-title">Informasi</div>
+                    <div class="p-3 text-muted small">
+                        <p><strong>SSO BPS Jayawijaya</strong></p>
+                        <p>Single Sign-On untuk aplikasi internal BPS Jayawijaya.</p>
+                        <p>Hubungi admin untuk mendapatkan akun baru.</p>
+                    </div>
+                </div>
             @endauth
         </div>
 

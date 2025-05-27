@@ -49,17 +49,23 @@ class LoginController extends Controller
                 ->with('error', 'Aplikasi tidak terdaftar atau tidak aktif.');
         }
 
-        // Store client info in session for later
-        session(['sso_client_id' => $request->client_id]);
-        session(['sso_state' => $request->state]);
-
-        // If user is already logged in, redirect to authorize
+        // If user is already logged in, redirect to process authorization with parameters
         if (Auth::check()) {
-            return redirect()->route('sso.authorize');
+            $processUrl = route('sso.process') . '?' . http_build_query([
+                'client_id' => $request->client_id,
+                'state' => $request->state
+            ]);
+            return redirect($processUrl);
         }
 
-        // Otherwise, show login form
-        return redirect()->route('login')
+        // Otherwise, show login form with SSO parameters
+        $loginUrl = route('login') . '?' . http_build_query([
+            'client_id' => $request->client_id,
+            'state' => $request->state,
+            'redirect_after_login' => 'sso_authorize'
+        ]);
+        
+        return redirect($loginUrl)
             ->with('message', 'Silakan login untuk melanjutkan ke ' . $clientApp->name);
     }
 
@@ -72,9 +78,21 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        // Check if login is part of SSO flow
-        if (session('sso_client_id')) {
-            return redirect()->route('sso.authorize');
+        // Check if login is part of SSO flow by checking URL parameters
+        if ($request->has('redirect_after_login') && $request->redirect_after_login === 'sso_authorize') {
+            // Redirect to process authorization with SSO parameters
+            $processParams = [];
+            if ($request->has('client_id')) {
+                $processParams['client_id'] = $request->client_id;
+            }
+            if ($request->has('state')) {
+                $processParams['state'] = $request->state;
+            }
+            
+            if (!empty($processParams)) {
+                $processUrl = route('sso.process') . '?' . http_build_query($processParams);
+                return redirect($processUrl);
+            }
         }
 
         return redirect()->intended($this->redirectPath());

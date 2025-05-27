@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ config('app.name', 'Single Sign-On BPS') }}</title>
     <link rel="shortcut icon" href="{{ asset('icon.ico') }}" type="image/x-icon">
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -189,10 +191,53 @@
             .right-side {
                 padding: 30px;
             }
+            
+            .docs-link {
+                bottom: 15px !important;
+                right: 15px !important;
+            }
+        }
+        
+        /* Link dokumentasi di pojok kanan bawah */
+        .docs-link {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #0099dd;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0, 153, 221, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .docs-link:hover {
+            background: #0088cc;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 153, 221, 0.4);
+            color: white;
+            text-decoration: none;
+        }
+        
+        .docs-link i {
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
     @yield('content')
+    
+    <!-- Link dokumentasi di pojok kanan bawah -->
+    <a href="{{ route('api.docs') }}" class="docs-link" title="Buka Dokumentasi API tanpa login">
+        <i class="fas fa-book"></i>
+        <span>Dokumentasi API</span>
+    </a>
 </body>
 </html>

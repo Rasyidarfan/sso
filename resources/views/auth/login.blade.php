@@ -27,8 +27,32 @@
             </div>
         @endif
         
+        {{-- Tampilkan info client app jika ada --}}
+        @if(request('client_name'))
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i>
+                <strong>Login untuk mengakses:</strong> {{ request('client_name') }}
+                <br><small>Masukkan kredensial BPS Anda untuk melanjutkan.</small>
+            </div>
+        @endif
+        
         <form method="POST" action="{{ route('login') }}">
             @csrf
+            
+            {{-- Hidden fields untuk SSO parameters --}}
+            @if(request('client_id'))
+                <input type="hidden" name="client_id" value="{{ request('client_id') }}">
+            @endif
+            @if(request('state'))
+                <input type="hidden" name="state" value="{{ request('state') }}">
+            @endif
+            @if(request('redirect_after_login'))
+                <input type="hidden" name="redirect_after_login" value="{{ request('redirect_after_login') }}">
+            @endif
+            @if(request('client_name'))
+                <input type="hidden" name="client_name" value="{{ request('client_name') }}">
+            @endif
+            
             <div class="form-group">
                 <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" placeholder="Email" required autofocus>
                 @error('email')

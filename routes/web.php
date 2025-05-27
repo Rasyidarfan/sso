@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClientAppController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SsoController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -17,8 +18,8 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-// Auth routes
-Auth::routes();
+// Auth routes - disable registration
+Auth::routes(['register' => false]);
 
 // Custom Logout Page
 Route::get('/logout-success', function () {
@@ -33,7 +34,12 @@ Route::post('/logout-custom', function () {
 
 // Home route
 Route::get('/', function () {
-    return redirect()->route('home');
+    // Redirect based on authentication status
+    if (Auth::check()) {
+        return redirect()->route('home');
+    } else {
+        return redirect()->route('login');
+    }
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -45,9 +51,10 @@ Route::get('/docs', function () {
 
 // SSO routes 
 Route::prefix('v1')->group(function () {
-    // Authorize endpoint - accepts any method to handle error properly
     Route::any('/authorize', [SsoController::class, 'oauthAuthorize'])->name('sso.authorize');
+    Route::any('/process-authorization', [SsoController::class, 'processAuthorization'])->name('sso.process');
     Route::any('/token', [SsoController::class, 'oauthToken'])->name('sso.token');
+    Route::any('/check', [SsoController::class, 'oauthCheck'])->name('sso.check');
 });
 
 // Redirect from client apps
@@ -59,10 +66,19 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
     Route::post('/profile/password', [UserController::class, 'updatePassword'])->name('profile.password');
 
+    // Users index - semua user bisa akses (read-only untuk non-admin/umum)
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    
+    // Users edit - semua user bisa edit diri sendiri, admin/umum bisa edit semua
+    Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
+
     // Users management (admin and umum only)
     Route::middleware(['can.manage.users'])->group(function () {
-        Route::resource('users', UserController::class)->except(['show', 'destroy']);
+        Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+        Route::post('/users', [UserController::class, 'store'])->name('users.store');
         Route::patch('/users/{user}/toggle-status', [UserController::class, 'toggleStatus'])->name('users.toggle-status');
+        Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
     });
 
     // Client Apps (admin only)
@@ -70,5 +86,8 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('client-apps', ClientAppController::class);
         Route::patch('/client-apps/{clientApp}/toggle-status', [ClientAppController::class, 'toggleStatus'])->name('client-apps.toggle-status');
         Route::post('/client-apps/{clientApp}/regenerate-secret', [ClientAppController::class, 'regenerateSecret'])->name('client-apps.regenerate-secret');
+        
+        // Roles management (admin only)
+        Route::resource('roles', RoleController::class);
     });
 });

@@ -12,6 +12,8 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        //
+        'v1/token',      // SSO OAuth token endpoint
+        'v1/authorize',  // SSO OAuth authorize endpoint  
+        'v1/check',      // SSO OAuth check endpoint
     ];
 }
